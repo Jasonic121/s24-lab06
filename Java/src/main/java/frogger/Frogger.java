@@ -13,19 +13,14 @@ public class Frogger {
     
     // Field for task 2. Anything to add/change?
     private final Records records;
-    private String firstName, lastName, phoneNumber, zipCode, state, gender;
+    private final FroggerID froggerID;
 
-    public Frogger(Road road, int position, Records records, String firstName, String lastName, String phoneNumber,
-    String zipCode, String state, String gender) {
+
+    public Frogger(Road road, int position, Records records, FroggerID froggerID) {
         this.road = road;
         this.position = position;
         this.records = records;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
-        this.zipCode = zipCode;
-        this.state = state;
-        this.gender = gender;
+        this.froggerID = froggerID;
     }
 
     /**
@@ -36,33 +31,37 @@ public class Frogger {
      */
     public boolean move(boolean forward) {
         int nextPosition = this.position + (forward ? 1 : -1);
-        if (!isValid(nextPosition) || isOccupied(nextPosition)) {
-            return false;
+        // if (!isValid(nextPosition) || isOccupied(nextPosition)) {
+        if (!road.isValidPosition(nextPosition) || road.isOccupied(nextPosition)) {
+        return false;
         }
         this.position = nextPosition;
         return true;
     }
 
     // TODO: Do you notice any issues here?
-    public boolean isOccupied(int position) {
-        boolean[] occupied = this.road.getOccupied();
-        return occupied[position];
-    }
+    // Feature Envy: This method is more interested in the Road class than the Frogger class.
+    // Inappropriate Intimacy: This method is using the Road class more than the Frogger class.
+    // public boolean isOccupied(int position) {
+    //     boolean[] occupied = this.road.getOccupied();
+    //     return occupied[position];
+    // }
     
-    public boolean isValid(int position) {
-        if (position < 0) return false;
-        boolean[] occupied = this.road.getOccupied();
-        return position < occupied.length;
-    }
+    // public boolean isValid(int position) {
+    //     if (position < 0) return false;
+    //     boolean[] occupied = this.road.getOccupied();
+    //     return position < occupied.length;
+    // }
 
+    // Primitive Obsession: This method is using primitive types to represent a concept.
     /**
      * Records Frogger to the list of records.
      * 
      * @return true if record successful, else false.
      */
     public boolean recordMyself() {
-      boolean success = records.addRecord(firstName, lastName, phoneNumber, zipCode, state, gender);
-      return success;
-    }
+        boolean success = records.addRecord(froggerID);
+        return success;
+      }
 
 }
